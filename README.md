@@ -1,0 +1,2 @@
+# Nursery-Management-System
+ Nursery management system is a software where a person can buy their necessary plants. They can find a various brand and categories plants. After from all the finding they can compare the product price and they can order their plant that they needed. One dealer can easily add a product for selling. After from all the finding they can compare the product price and they can order their plant that they needed. 
