@@ -52,14 +52,6 @@ public class Admin extends JFrame implements ActionListener
 		user.addActionListener(this);
 		panel.add(user);
 		
-		addAdmin = new JButton("Add Admin");
-		addAdmin.setBounds(350, 370, 250,50);
-		addAdmin.setFont(new Font("Consolas",Font.BOLD,20));
-		addAdmin.setBackground(Color.DARK_GRAY);
-		addAdmin.setForeground(Color.white);
-		addAdmin.addActionListener(this);
-		panel.add(addAdmin);
-		
 		transaction = new JButton("Transaction");
 		transaction.setBounds(350, 470, 250,50);
 		transaction.setFont(new Font("Consolas",Font.BOLD,20));
@@ -125,12 +117,7 @@ public class Admin extends JFrame implements ActionListener
 			AdminUserInfo u = new AdminUserInfo(this);
 			u.setVisible(true);
 		}
-		else if(text.equals(addAdmin.getText()))
-		{
-			this.setVisible(false);
-			AddAdmin u = new AddAdmin(this);
-			u.setVisible(true);
-		}
+		
 		else if(text.equals(transaction.getText()))
 		{
 			this.setVisible(false);
