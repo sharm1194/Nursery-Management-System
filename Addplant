@@ -1,0 +1,260 @@
+import java.lang.*;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.sql.*;
+
+public class Addplant extends JFrame implements ActionListener , MouseListener
+{
+	
+
+	  JLabel label,treeid,treename,streename, price, description,image;
+	  JPanel panel;	
+	  JTextField ttreeid,ttreename,tstreename, tprice, tdescription,timage;
+	  JButton add,back , logout;
+	  Connection connection=null;
+	  DealerPlantInfo d;
+	  String TreeId, Name, DealerId, Image, SciName, Advantage;
+	  double Price;
+	  JLabel limg;
+	  ImageIcon img;
+	  
+	
+	public Addplant(DealerPlantInfo d)
+	{
+		super("Add Plant");
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setSize(1000,750);
+		
+		panel = new JPanel();
+		panel.setLayout(null);
+		
+		this.d=d;
+		
+		label = new JLabel("Add Tree");
+		label.setBounds(370,50,300,50);
+		label.setFont(new Font("Consolas",Font.BOLD,40));
+	    panel.add(label);
+		
+		treeid = new JLabel("Tree ID");
+		treeid.setBounds(200,140,150,50);
+		treeid.setFont(new Font("Consolas",Font.BOLD,20));
+	    panel.add(treeid);
+		
+		ttreeid = new JTextField();
+		ttreeid.setBounds(380,140,350,50);
+		ttreeid.setFont(new Font("Consolas",Font.BOLD,20));
+	    panel.add(ttreeid);
+		
+		treename = new JLabel("Tree name");
+		treename.setBounds(200,200,150,50);
+		treename.setFont(new Font("Consolas",Font.BOLD,20));
+	    panel.add(treename);
+		
+		ttreename = new JTextField();
+		ttreename.setBounds(380,200,350,50);
+		ttreename.setFont(new Font("Consolas",Font.BOLD,20));
+	    panel.add(ttreename);
+		
+		streename = new JLabel("Scientific Name");
+		streename.setBounds(200,260,200,50);
+		streename.setFont(new Font("Consolas",Font.BOLD,20));
+	    panel.add(streename);
+		
+		tstreename = new JTextField();
+		tstreename.setBounds(380,260,350,50);
+		tstreename.setFont(new Font("Consolas",Font.BOLD,20));
+	    panel.add(tstreename);
+		
+		
+		
+		price = new JLabel("Price");
+		price.setBounds(200,320,150,50);
+		price.setFont(new Font("Consolas",Font.BOLD,20));
+	    panel.add(price);
+		
+		tprice = new JTextField();
+		tprice.setBounds(380,320,350,50);
+		tprice.setFont(new Font("Consolas",Font.BOLD,20));
+	    panel.add(tprice);
+		
+		description = new JLabel("Description");
+		description.setBounds(200,380,150,50);
+		description.setFont(new Font("Consolas",Font.BOLD,20));
+	    panel.add(description);
+		
+		tdescription = new JTextField();
+		tdescription.setBounds(380,380,350,50);
+		tdescription.setFont(new Font("Consolas",Font.BOLD,20));
+	    panel.add(tdescription);
+		
+		image = new JLabel("Image");
+		image.setBounds(200,440,150,50);
+		image.setFont(new Font("Consolas",Font.BOLD,20));
+	    panel.add(image);
+		
+		timage = new JTextField();
+		timage.setBounds(380,440,350,50);
+		timage.setFont(new Font("Consolas",Font.BOLD,20));
+	    panel.add(timage);
+		
+		add = new JButton("Add");
+		add.setBounds(420,530,100,50);
+		add.setFont(new Font("Consolas",Font.BOLD,20));
+		add.setBackground(Color.DARK_GRAY);
+		add.setForeground(Color.white);
+		add.addActionListener(this);
+		add.addMouseListener(this);
+	    panel.add(add);
+	
+		
+		back = new JButton("Back");
+		back.setBounds(50, 620, 200,50);
+		back.setFont(new Font("Consolas",Font.BOLD,20));
+		back.setBackground(Color.DARK_GRAY);
+		back.setForeground(Color.white);
+		back.addActionListener(this);
+		panel.add(back);
+		
+		logout = new JButton("Log Out");
+		logout.setBounds(700, 620, 200,50);
+		logout.setFont(new Font("Consolas",Font.BOLD,20));
+		logout.setBackground(Color.DARK_GRAY);
+		logout.setForeground(Color.white);
+		logout.addActionListener(this);
+		panel.add(logout);
+		
+		img = new ImageIcon(".//Image//back.jpg");
+		limg = new JLabel(img);
+		limg.setBounds(0,0,1000,700);
+		panel.add(limg);
+		
+		
+		this.add(panel);
+		
+	}
+	
+	public void mousePressed(MouseEvent e)
+	{
+		
+	}
+	public void mouseReleased(MouseEvent e)
+	{
+		
+	}
+	public void mouseExited(MouseEvent e)
+	{
+		
+	}
+	public void mouseClicked(MouseEvent e)
+	{
+		
+	}
+	public void mouseEntered(MouseEvent e)
+	{
+		System.out.println("Out");
+		if(e.getSource()==add)
+		{
+			if(treename.getText().equals("") || treeid.getText().equals("") || timage.getText().equals("") || tstreename.getText().equals("") || tprice.getText().equals("") || tdescription.getText().equals("") )
+			{
+				add.setEnabled(false);
+			}
+			
+			else
+			{
+				add.setEnabled(true);
+			}
+			System.out.println("IN");
+		}
+	}
+	
+	public void actionPerformed(ActionEvent event)
+	{
+		
+		String text = event.getActionCommand();
+		
+		if(text.equals(back.getText()))
+		{
+			this.setVisible(false);
+			d.setVisible(true);
+		}
+		else if(text.equals(logout.getText()))
+		{
+			this.setVisible(false);
+			Login m = new Login();
+			m.setVisible(true);
+		}
+		else if(text.equals(add.getText()))
+		{
+			
+			try
+			{
+				
+				connection=DatabaseConnection.DbConnector();
+				String mysql="SELECT * FROM `tree`";
+				Statement st = connection.createStatement();
+				System.out.println("statement created");
+				ResultSet rs = st.executeQuery(mysql);
+				System.out.println("results received");
+				
+				int x=0;
+				while(rs.next())
+				{
+					TreeId = rs.getString("TreeId");
+					if(TreeId.equals(ttreeid.getText()))
+					{
+						JOptionPane.showMessageDialog(null,"TreeID already exist");
+						ttreeid.setText("");
+						x=1;
+					}
+				}
+				if(x==0)
+				{
+					
+					TreeId=ttreeid.getText();
+					Name=ttreename.getText();
+					DealerId=d.DealerID;
+					Image=timage.getText();
+					Price=Double.parseDouble(tprice.getText());
+					SciName=tstreename.getText();
+					Advantage=tdescription.getText();
+					
+					System.out.println(TreeId+"	"+ Name+"	" +DealerId+"	"+ Price+"	"+Image+"	" +SciName+"	"+ Advantage);
+					
+					String query = "INSERT INTO `tree` (`TreeId`, `Name`, `DealerId`, `Image`, `Price`, `SciName`, `Advantage`) VALUES ('"+TreeId+"', '"+Name+"', '"+DealerId+"', '"+Image+"', '"+Price+"', '"+SciName+"', '"+Advantage+"')";
+					st.executeUpdate(query);
+					System.out.println("Info Added");
+					
+					
+					try
+					{
+						if(rs!=null)
+							rs.close();
+
+						if(st!=null)
+							st.close();
+
+						if(connection!=null)
+							connection.close();
+					}
+					catch(Exception ex)
+					{
+						System.out.println("Exception : " +ex.getMessage());
+					}
+					JOptionPane.showMessageDialog(null,"Tree Added");
+					this.setVisible(false);
+					d.setVisible(true);
+				}
+				
+				
+				
+			}
+			catch(Exception ex)
+			{
+				System.out.println("Exception : " +ex.getMessage());
+			}
+			
+		}
+		
+	}
+}
